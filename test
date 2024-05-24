@@ -26,3 +26,61 @@ int main() {
 
   return 0;
 }
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+int main() {
+  int polje[10][10]; 
+  for(int i = 0; i < 10; i++) {
+    for(int j = 0; j < 10; j++) {
+      polje[i][j]=0; 
+    }
+  }
+  srand(time(0));
+
+  for(int i = 0; i < 20; i++) {
+      polje[rand() % 10][rand() % 10] = 1; 
+  }
+
+  for(int i = 0; i < 10; i++) {
+    for(int j = 0; j < 10; j++) {
+      int br=0;
+      if(polje[i][j-1]==1){
+        br+=1;
+        flag
+      }
+      if(polje[i-1][j-1]==1){
+        br+=1;
+      }
+      if(polje[i-1][j]==1){
+        br+=1;
+      }
+      if(polje[i-1][j+1]==1){
+        br+=1;
+      }
+      if(polje[i+1][j]==1){
+        br+=1;
+      }
+      if(polje[i][j+1]==1){
+        br+=1;
+      }
+      if(polje[i+1][j-1]==1){
+        br+=1;
+      }
+      if(polje[i+1][j+1]==1){
+        br+=1;
+      }
+      polje[i][j]=br+2;
+    }
+  }
+  for(int i = 0; i < 10; i++) {
+    for(int j = 0; j < 10; j++) {
+      cout<<polje[i][j]<<"\t"; 
+    }
+    cout<<endl;
+  }
+  return 0;
+}
