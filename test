@@ -1,86 +1,139 @@
+/*#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+void igra(int polje[10][10]){
+  while (1){
+    for(int i = 0; i < 10; i++) {
+        for(int j = 0; j < 10; j++) {
+            if(polje[i][j]<10){
+              cout << "🔲" << "\t";
+            }
+        }
+        cout << endl;
+    }
+  }
+}
+
+int main() {
+    int polje[10][10]; 
+    for(int i = 0; i < 10; i++) {
+        for(int j = 0; j < 10; j++) {
+            polje[i][j] = 0; 
+        }
+    }
+    srand(time(0));
+    for(int i = 0; i < 20; i++) {
+        int a = rand() % 10;
+        int b = rand() % 10;
+        if(polje[a][b] == 10){
+            i--;
+        } else {
+            polje[a][b] = 10;
+        }
+    }
+    for(int i = 0; i < 10; i++) {
+        for(int j = 0; j < 10; j++) {
+            if (polje[i][j] == 10) {
+                continue;
+            }
+            int mineCount = 0;
+            for(int x = -1; x <= 1; x++) {
+                for(int y = -1; y <= 1; y++) {
+                    if (x == 0 && y == 0) continue;
+                    int ni = i + x;
+                    int nj = j + y;
+                    if (ni >= 0 && ni < 10 && nj >= 0 && nj < 10 && polje[ni][nj] == 10) {
+                        mineCount++;
+                    }
+                }
+            }
+            polje[i][j] = mineCount;
+        }
+    }
+    /for(int i = 0; i < 10; i++) {
+        for(int j = 0; j < 10; j++) {
+            if (polje[i][j] == 10) {
+                cout << "💣" << "\t";
+            } else {
+                cout << polje[i][j] << "\t";
+            }
+        }
+        cout << endl;
+    }
+    igra(polje[10][10]);
+    return 0;
+}*/
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 
 using namespace std;
 
-int main() {
-  int polje[10][10]; 
-  for(int i = 0; i < 10; i++) {
-    for(int j = 0; j < 10; j++) {
-      polje[i][j]=0; 
+void igra(int polje[10][10]) {
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            polje[i][j] = 0;
+        }
     }
-  }
-  srand(time(0));
 
-  for(int i = 0; i < 20; i++) {
-      polje[rand() % 10][rand() % 10] = 1; 
-  }
+    srand(time(0));
 
-  for(int i = 0; i < 10; i++) {
-    for(int j = 0; j < 10; j++) {
-      cout << polje[i][j]<<"\t"; 
+    for (int i = 0; i < 20; i++) {
+        int a = rand() % 10;
+        int b = rand() % 10;
+        if (polje[a][b] == 10) {
+            i--;
+        } else {
+            polje[a][b] = 10;
+        }
     }
-    cout << endl;
-  }
 
-  return 0;
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            if (polje[i][j] == 10) {
+                continue; 
+            }
+            int mineCount = 0;
+            for (int x = -1; x <= 1; x++) {
+                for (int y = -1; y <= 1; y++) {
+                    if (x == 0 && y == 0) continue;
+                    int ni = i + x;
+                    int nj = j + y;
+                    if (ni >= 0 && ni < 10 && nj >= 0 && nj < 10 && polje[ni][nj] == 10) {
+                        mineCount++;
+                    }
+                }
+            }
+            polje[i][j] = mineCount;
+        }
+    }
 }
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
 
-using namespace std;
+void displayGrid(int polje[10][10]) {
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            if (polje[i][j] == 10) {
+                cout << "💣" << "\t";
+            } else if (polje[i][j] == 0) {
+                cout << "🔲" << "\t"; 
+            } else {
+                cout << polje[i][j] << "\t";
+            }
+        }
+        cout << endl;
+    }
+}
 
 int main() {
-  int polje[10][10]; 
-  for(int i = 0; i < 10; i++) {
-    for(int j = 0; j < 10; j++) {
-      polje[i][j]=0; 
-    }
-  }
-  srand(time(0));
+    int polje[10][10];
 
-  for(int i = 0; i < 20; i++) {
-      polje[rand() % 10][rand() % 10] = 1; 
-  }
+    igra(polje);
 
-  for(int i = 0; i < 10; i++) {
-    for(int j = 0; j < 10; j++) {
-      int br=0;
-      if(polje[i][j-1]==1){
-        br+=1;
-        flag
-      }
-      if(polje[i-1][j-1]==1){
-        br+=1;
-      }
-      if(polje[i-1][j]==1){
-        br+=1;
-      }
-      if(polje[i-1][j+1]==1){
-        br+=1;
-      }
-      if(polje[i+1][j]==1){
-        br+=1;
-      }
-      if(polje[i][j+1]==1){
-        br+=1;
-      }
-      if(polje[i+1][j-1]==1){
-        br+=1;
-      }
-      if(polje[i+1][j+1]==1){
-        br+=1;
-      }
-      polje[i][j]=br+2;
-    }
-  }
-  for(int i = 0; i < 10; i++) {
-    for(int j = 0; j < 10; j++) {
-      cout<<polje[i][j]<<"\t"; 
-    }
-    cout<<endl;
-  }
-  return 0;
+    displayGrid(polje);
+
+    return 0;
 }
+
