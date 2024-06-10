@@ -3,10 +3,17 @@
 #include <cstdlib>
 #include <ctime>
 #include <stdio.h>
+#include <fstream>
+#include <cstring>
 using namespace std;
+struct str_account
+{
+    char username[20];
+    int ID;
+    char lozinka[20];
+};
 void cls() { printf("\033[2J"
                     "\033[1;1H"); }
-
 // Funkcija za brojanje mina oko danog polja
 int broj(int **polje, int i1, int j1, int Vpolja)
 {
@@ -27,7 +34,6 @@ int broj(int **polje, int i1, int j1, int Vpolja)
     }
     return BrMina;
 }
-
 void IspuniPolje(int **polje, int Vpolja, int numMines, int prvix, int prviy)
 {
     // Inicijalizacija polja na 0
@@ -112,7 +118,7 @@ void prikaziPolje(int **polje, int Vpolja)
             {
                 cout << "⬜";
             }
-            
+
             else if (polje[i][j] == 101)
             {
                 cout << " 1";
@@ -206,7 +212,7 @@ void igrapocinje(int **polje, int Vpolja)
     while (true)
     {
         cout << "ukoliko želiute piknut polje unesite 1, a ako želite postaviti zastavicu unesite 2." << endl;
-        start2:
+    start2:
         int zilip;
         cin >> zilip;
         if (zilip != 1 && zilip != 2)
@@ -225,8 +231,8 @@ void igrapocinje(int **polje, int Vpolja)
             goto start1;
         }
 
-        x--; 
-        y--; 
+        x--;
+        y--;
         if (zilip == 1)
         {
             if (polje[x][y] == 0)
@@ -304,8 +310,69 @@ int main()
              << "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜" << endl
              << "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜" << endl
              << "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜PRITISNITE ENTER ZA NASTAVAK⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜" << endl;
+        cout << "DOBRODOŠLI U MINESWEEPER" << endl
+             << "Ukoliko želite li kreirati novi račun unesite 1,ako se želite ulogirati u več postojeći račun unesite 2 ili ako želite nastaviti kao gost unesite 3." << endl
+             << "!ako nastavite kao gost nećete ništa moći spremiti!";
+        /*int acc;
+        cin >> acc;
+        if (acc == 1)
+        {
+            str_account racun;
+            ofstream account;
+            account.open("C:/Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovi-Lovro_Marovic/accout.dat", ios::binary);
+            cout << "Unesite korisničko ime." << endl;
+            cin >> racun.username;
+            cout << "Unesite ID (niz 5 brojeva od 0 do 9)" << endl;
+            cin >> racun.ID;
+            cout << "Unesite lozinku." << endl;
+            cin >> racun.lozinka;
+            account.write((char *)&racun, sizeof(racun));
+        }*/
+        int acc;
+        cin >> acc;
 
+        if (acc == 1)
+        {
+            str_account racun;
+            // Clear the account structure to avoid garbage values
+            memset(&racun, 0, sizeof(racun));
+
+            ofstream account;
+            account.open("account.dat", ios::binary | ios::app); // Changed path for general use and added ios::app to append data
+
+            if (!account)
+            {
+                cerr << "Error opening file for writing." << endl;
+                return 1;
+            }
+
+            cout << "Unesite korisničko ime." << endl;
+            cin >> racun.username;
+
+            cout << "Unesite ID (niz 5 brojeva od 0 do 9)" << endl;
+            cin >> racun.ID;
+
+            cout << "Unesite lozinku." << endl;
+            cin >> racun.lozinka;
+
+            account.write((char *)&racun, sizeof(racun));
+            if (!account)
+            {
+                cerr << "Error writing to file." << endl;
+                return 1;
+            }
+
+            account.close();
+            cout << "Račun je uspješno kreiran!" << endl;
+        }
+        else if (acc == 2)
+        {
+        }
+        else if (acc == 3)
+        {
+        }
         int izbor = 0;
+    start3:
         cout << "za poretanje igre upišite 1" << endl
              << "za izlazak iz igre upišite 2" << endl
              << "za izlazak upišite 3" << endl;
@@ -417,7 +484,7 @@ int main()
             cin >> izbor;
             if (izbor == 1)
             {
-                continue;
+                goto start3;
             }
             else if (izbor == 2)
             {
