@@ -313,32 +313,17 @@ int main()
         cout << "DOBRODOŠLI U MINESWEEPER" << endl
              << "Ukoliko želite li kreirati novi račun unesite 1,ako se želite ulogirati u več postojeći račun unesite 2 ili ako želite nastaviti kao gost unesite 3." << endl
              << "!ako nastavite kao gost nećete ništa moći spremiti!";
-        /*int acc;
-        cin >> acc;
-        if (acc == 1)
-        {
-            str_account racun;
-            ofstream account;
-            account.open("C:/Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovi-Lovro_Marovic/accout.dat", ios::binary);
-            cout << "Unesite korisničko ime." << endl;
-            cin >> racun.username;
-            cout << "Unesite ID (niz 5 brojeva od 0 do 9)" << endl;
-            cin >> racun.ID;
-            cout << "Unesite lozinku." << endl;
-            cin >> racun.lozinka;
-            account.write((char *)&racun, sizeof(racun));
-        }*/
         int acc;
         cin >> acc;
 
         if (acc == 1)
         {
             str_account racun;
-            // Clear the account structure to avoid garbage values
+            
             memset(&racun, 0, sizeof(racun));
 
             ofstream account;
-            account.open("account.dat", ios::binary | ios::app); // Changed path for general use and added ios::app to append data
+            account.open("account.dat", ios::binary | ios::app); 
 
             if (!account)
             {
@@ -367,6 +352,47 @@ int main()
         }
         else if (acc == 2)
         {
+            ifstream account("account.dat", ios::binary);
+            if (!account)
+            {
+                cerr << "Error opening file for reading." << endl;
+                return 1;
+            }
+
+            char username[50];
+            char lozinka[50];
+            int ID;
+
+            cout << "Unesite korisničko ime:" << endl;
+            cin >> username;
+
+            cout << "Unesite ID (niz 5 brojeva od 0 do 9):" << endl;
+            cin >> ID;
+
+            cout << "Unesite lozinku:" << endl;
+            cin >> lozinka;
+
+            str_account racun;
+            bool found = false;
+            while (account.read(reinterpret_cast<char *>(&racun), sizeof(racun)))
+            {
+                if (strcmp(username, racun.username) == 0 && ID == racun.ID && strcmp(lozinka, racun.lozinka) == 0)
+                {
+                    found = true;
+                    cout << "Uspješno ste prijavljeni!" << endl;
+                    cout << "Korisničko ime: " << racun.username << endl;
+                    cout << "ID: " << racun.ID << endl;
+                    cout << "Lozinka: " << racun.lozinka << endl;
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                cout << "Pogrešno korisničko ime, ID ili lozinka." << endl;
+            }
+
+            account.close();
         }
         else if (acc == 3)
         {
