@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <cstring>
+
 using namespace std;
 struct str_account
 {
@@ -262,6 +263,28 @@ void igrapocinje(int **polje, int Vpolja)
     }
 }
 
+void spremiPoljeUDatoteku(int **polje, int Vpolja, const char *dat, int ID)
+{
+    std::ofstream file(dat, std::ios::app);
+    if (!file.is_open())
+    {
+        std::cerr << "Unable to open file " << dat << std::endl;
+        return;
+    }
+
+    file << ID << std::endl;
+
+    for (int i = 0; i < Vpolja; ++i)
+    {
+        for (int j = 0; j < Vpolja; ++j)
+        {
+            file << polje[i][j] << " ";
+        }
+        file << std::endl;
+    }
+
+    file.close();
+}
 int main()
 {
     while (1)
@@ -315,15 +338,16 @@ int main()
              << "!ako nastavite kao gost nećete ništa moći spremiti!";
         int acc;
         cin >> acc;
-
+        char username[50], lozinka[50];
+        int ID;
         if (acc == 1)
         {
             str_account racun;
-            
+
             memset(&racun, 0, sizeof(racun));
 
             ofstream account;
-            account.open("account.dat", ios::binary | ios::app); 
+            account.open("account.dat", ios::binary | ios::app);
 
             if (!account)
             {
@@ -333,12 +357,15 @@ int main()
 
             cout << "Unesite korisničko ime." << endl;
             cin >> racun.username;
+            strcpy(username, racun.username);
 
             cout << "Unesite ID (niz 5 brojeva od 0 do 9)" << endl;
             cin >> racun.ID;
+            ID = racun.ID;
 
             cout << "Unesite lozinku." << endl;
             cin >> racun.lozinka;
+            strcpy(username, racun.username);
 
             account.write((char *)&racun, sizeof(racun));
             if (!account)
@@ -358,10 +385,6 @@ int main()
                 cerr << "Error opening file for reading." << endl;
                 return 1;
             }
-
-            char username[50];
-            char lozinka[50];
-            int ID;
 
             cout << "Unesite korisničko ime:" << endl;
             cin >> username;
@@ -468,6 +491,8 @@ int main()
             }
 
             IspuniPolje(polje, Vpolja, numMines, prvix, prviy);
+            const char *spremljena_polja = "spremljena_polja.txt";
+            spremiPoljeUDatoteku(polje, Vpolja, spremljena_polja, ID);
             for (int i = 0; i < Vpolja; i++)
             {
                 for (int j = 0; j < Vpolja; j++)
