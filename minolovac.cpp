@@ -318,6 +318,19 @@ void igrapocinje(int **polje, int Vpolja, int ID)
             polje[x][y] += 69;
         }
         prikaziPolje(polje, Vpolja);
+        int figragotova=1;
+        for(int ij=0; ij<Vpolja; ij++){
+            for(int j=0; j<Vpolja; j++){
+                if(polje[ij][j]<100||polje[ij][j]==10){
+                }
+                else{
+                    figragotova=0;
+                }
+            }
+        }
+        if(figragotova==0){
+            break;
+        }
     }
 }
 
