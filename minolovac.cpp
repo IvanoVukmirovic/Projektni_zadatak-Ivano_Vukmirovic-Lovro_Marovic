@@ -369,8 +369,7 @@ int main()
              << "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬛⬛⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜" << endl
              << "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬛⬛⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜" << endl
              << "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜" << endl
-             << "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜" << endl
-             << "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜PRITISNITE ENTER ZA NASTAVAK⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜" << endl;
+             << "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜" << endl;
         cout << "DOBRODOŠLI U MINESWEEPER" << endl
              << "Ukoliko želite li kreirati novi račun unesite 1,ako se želite ulogirati u več postojeći račun unesite 2.";
         int acc;
@@ -599,11 +598,10 @@ int main()
                     polje[i][j] = poljasce[i][j];
                 }
             }
+            int prvix=0, prviy=0;
+            int numMines = Vpolja * Vpolja / 7; // Broj mina je 1/7 polja
             if (p != 1)
             {
-                int numMines = Vpolja * Vpolja / 7; // Broj mina je 1/7 polja
-
-                int prvix, prviy;
                 cout << "Unesite koordinate (x y) polja koje želite označiti da na njima sigurno neće biti mina pri kreirajnu polja: ";
                 cin >> prvix >> prviy;
                 prvix--;
@@ -613,9 +611,9 @@ int main()
                     cout << "Nevažeće koordinate. Izlazim." << endl;
                     return 1;
                 }
-
-                IspuniPolje(polje, Vpolja, numMines, prvix, prviy);
             }
+                IspuniPolje(polje, Vpolja, numMines, prvix, prviy);
+            
             for (int i = 0; i < Vpolja; i++)
             {
                 for (int j = 0; j < Vpolja; j++)
