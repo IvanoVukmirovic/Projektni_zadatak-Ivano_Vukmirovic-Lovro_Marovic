@@ -1,10 +1,11 @@
-
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <stdio.h>
 #include <fstream>
 #include <cstring>
+#include <vector>
+#include <sstream>
 
 using namespace std;
 struct str_account
@@ -208,7 +209,29 @@ void rekurzija(int **polje, int x, int y, int rows, int cols)
         }
     }
 }
-void igrapocinje(int **polje, int Vpolja)
+void spremiPoljeUDatoteku(int **polje, int Vpolja, const char *dat, int ID)
+{
+    ofstream ofs;
+    ofs.open(dat, ofstream::out | ofstream::trunc);
+    ofs.close();
+    ofstream file(dat, ios::app);
+    if (!file.is_open())
+    {
+        cerr << "Unable to open file " << dat << endl;
+        return;
+    }
+    for (int i = 0; i < Vpolja; ++i)
+    {
+        for (int j = 0; j < Vpolja; ++j)
+        {
+            file << polje[i][j] << " ";
+        }
+        file << endl;
+    }
+
+    file.close();
+}
+void igrapocinje(int **polje, int Vpolja, int ID)
 {
     while (true)
     {
@@ -216,6 +239,28 @@ void igrapocinje(int **polje, int Vpolja)
     start2:
         int zilip;
         cin >> zilip;
+        if (zilip == 505)
+        {
+            cout << "odaberite želite li lpristiti save spot 1(unesite 1), 2(unesite 2), 3(unesite 3)";
+            int save = 0;
+            cin >> save;
+            if (save == 1)
+            {
+                const char *spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja.txt";
+                spremiPoljeUDatoteku(polje, Vpolja, spremljena_polja, ID);
+            }
+            if (save == 2)
+            {
+                const char *spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja2.txt";
+                spremiPoljeUDatoteku(polje, Vpolja, spremljena_polja, ID);
+            }
+            if (save == 3)
+            {
+                const char *spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja3.txt";
+                spremiPoljeUDatoteku(polje, Vpolja, spremljena_polja, ID);
+            }
+            break;
+        }
         if (zilip != 1 && zilip != 2)
         {
             cout << "unos nije valjan pokušajte ponovo" << endl;
@@ -250,6 +295,19 @@ void igrapocinje(int **polje, int Vpolja)
                 cout << "Pogodili ste minu, igra je gotova." << endl;
                 break;
             }
+            else if (polje[x][y] == 69)
+            {
+                polje[x][y] -= 69;
+                if (polje[x][y] == 10)
+                {
+                    cout << "Pogodili ste minu, igra je gotova." << endl;
+                    break;
+                }
+                else
+                {
+                    polje[x][y] += 100;
+                }
+            }
             else if (polje[x][y] < 100)
             {
                 polje[x][y] += 100;
@@ -257,36 +315,16 @@ void igrapocinje(int **polje, int Vpolja)
         }
         if (zilip == 2)
         {
-            polje[x][y] = 69;
+            polje[x][y] += 69;
         }
         prikaziPolje(polje, Vpolja);
     }
 }
 
-void spremiPoljeUDatoteku(int **polje, int Vpolja, const char *dat, int ID)
-{
-    std::ofstream file(dat, std::ios::app);
-    if (!file.is_open())
-    {
-        std::cerr << "Unable to open file " << dat << std::endl;
-        return;
-    }
-
-    file << ID << std::endl;
-
-    for (int i = 0; i < Vpolja; ++i)
-    {
-        for (int j = 0; j < Vpolja; ++j)
-        {
-            file << polje[i][j] << " ";
-        }
-        file << std::endl;
-    }
-
-    file.close();
-}
 int main()
 {
+    vector<vector<int>> poljasce;
+    int p, kojsave;
     while (1)
     {
 
@@ -334,8 +372,7 @@ int main()
              << "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜" << endl
              << "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜PRITISNITE ENTER ZA NASTAVAK⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜" << endl;
         cout << "DOBRODOŠLI U MINESWEEPER" << endl
-             << "Ukoliko želite li kreirati novi račun unesite 1,ako se želite ulogirati u več postojeći račun unesite 2 ili ako želite nastaviti kao gost unesite 3." << endl
-             << "!ako nastavite kao gost nećete ništa moći spremiti!";
+             << "Ukoliko želite li kreirati novi račun unesite 1,ako se želite ulogirati u več postojeći račun unesite 2.";
         int acc;
         cin >> acc;
         char username[50], lozinka[50];
@@ -347,7 +384,7 @@ int main()
             memset(&racun, 0, sizeof(racun));
 
             ofstream account;
-            account.open("account.dat", ios::binary | ios::app);
+            account.open("C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/account.dat", ios::binary | ios::app);
 
             if (!account)
             {
@@ -377,9 +414,10 @@ int main()
             account.close();
             cout << "Račun je uspješno kreiran!" << endl;
         }
+
         else if (acc == 2)
         {
-            ifstream account("account.dat", ios::binary);
+            ifstream account("C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/account.dat", ios::binary);
             if (!account)
             {
                 cerr << "Error opening file for reading." << endl;
@@ -416,6 +454,83 @@ int main()
             }
 
             account.close();
+            cout << "želite li nastaviti već postojeću igru (unesiste 1) ili ne (unesite 2)" << endl;
+            cin >> p;
+            if (p == 1)
+            {
+                cout << "želite li učitati save1(unesite 1) save2(unesite 2) ili save3(unesite 3)" << endl;
+                cin >> kojsave;
+                if (kojsave == 1)
+                {
+                    ifstream ulaznaDatoteka("C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja.txt");
+                    if (!ulaznaDatoteka.is_open())
+                    {
+                        cerr << "Nije moguće otvoriti datoteku!" << endl;
+                        return 1;
+                    }
+
+                    string linija;
+                    while (getline(ulaznaDatoteka, linija))
+                    {
+                        vector<int> red;
+                        stringstream ss(linija);
+                        int broj;
+                        while (ss >> broj)
+                        {
+                            red.push_back(broj);
+                        }
+                        poljasce.push_back(red);
+                    }
+                    ulaznaDatoteka.close();
+                }
+                if (kojsave == 2)
+                {
+                    ifstream ulaznaDatoteka("C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja2.txt");
+                    if (!ulaznaDatoteka.is_open())
+                
+                    {
+                        cerr << "Nije moguće otvoriti datoteku!" << endl;
+                        return 1;
+                    }
+
+                    string linija;
+                    while (getline(ulaznaDatoteka, linija))
+                    {
+                        vector<int> red;
+                        stringstream ss(linija);
+                        int broj;
+                        while (ss >> broj)
+                        {
+                            red.push_back(broj);
+                        }
+                        poljasce.push_back(red);
+                    }
+                    ulaznaDatoteka.close();
+                }
+                if (kojsave == 3)
+                {
+                    ifstream ulaznaDatoteka("C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja3.txt");
+                    if (!ulaznaDatoteka.is_open())
+                    {
+                        cerr << "Nije moguće otvoriti datoteku!" << endl;
+                        return 1;
+                    }
+
+                    string linija;
+                    while (getline(ulaznaDatoteka, linija))
+                    {
+                        vector<int> red;
+                        stringstream ss(linija);
+                        int broj;
+                        while (ss >> broj)
+                        {
+                            red.push_back(broj);
+                        }
+                        poljasce.push_back(red);
+                    }
+                    ulaznaDatoteka.close();
+                }
+            }
         }
         else if (acc == 3)
         {
@@ -423,13 +538,14 @@ int main()
         int izbor = 0;
     start3:
         cout << "za poretanje igre upišite 1" << endl
-             << "za izlazak iz igre upišite 2" << endl
-             << "za izlazak upišite 3" << endl;
+             << "za pravila igre upišite 2" << endl
+             << "zakontrole upišite 3" << endl
+             << "za izlazak upišite 4" << endl;
         cin >> izbor;
         if (izbor == 1)
         {
             int Vpolja;
-            cout << "Odaberite veličinu polja:" << endl
+            cout << "Odaberite veličinu polja koje koristiš:" << endl
                  << "1. 10x10" << endl
                  << "2. 20x20" << endl
                  << "3. 30x30" << endl
@@ -440,7 +556,6 @@ int main()
 
             int izbor;
             cin >> izbor;
-
             switch (izbor)
             {
             case 1:
@@ -470,8 +585,6 @@ int main()
                 return 1;
             }
 
-            int numMines = Vpolja * Vpolja / 7; // Broj mina je 1/7 polja
-
             // Dinamički alociraj polje
             int **polje = new int *[Vpolja];
             for (int i = 0; i < Vpolja; i++)
@@ -479,20 +592,30 @@ int main()
                 polje[i] = new int[Vpolja];
             }
 
-            int prvix, prviy;
-            cout << "Unesite koordinate (x y) polja koje želite označiti: ";
-            cin >> prvix >> prviy;
-            prvix--;
-            prviy--;
-            if (prvix < 0 || prvix > Vpolja || prviy < 0 || prviy > Vpolja)
+            for (int i = 0; i < Vpolja; i++)
             {
-                cout << "Nevažeće koordinate. Izlazim." << endl;
-                return 1;
+                for (int j = 0; j < Vpolja; j++)
+                {
+                    polje[i][j] = poljasce[i][j];
+                }
             }
+            if (p != 1)
+            {
+                int numMines = Vpolja * Vpolja / 7; // Broj mina je 1/7 polja
 
-            IspuniPolje(polje, Vpolja, numMines, prvix, prviy);
-            const char *spremljena_polja = "spremljena_polja.txt";
-            spremiPoljeUDatoteku(polje, Vpolja, spremljena_polja, ID);
+                int prvix, prviy;
+                cout << "Unesite koordinate (x y) polja koje želite označiti da na njima sigurno neće biti mina pri kreirajnu polja: ";
+                cin >> prvix >> prviy;
+                prvix--;
+                prviy--;
+                if (prvix < 0 || prvix > Vpolja || prviy < 0 || prviy > Vpolja)
+                {
+                    cout << "Nevažeće koordinate. Izlazim." << endl;
+                    return 1;
+                }
+
+                IspuniPolje(polje, Vpolja, numMines, prvix, prviy);
+            }
             for (int i = 0; i < Vpolja; i++)
             {
                 for (int j = 0; j < Vpolja; j++)
@@ -501,8 +624,7 @@ int main()
                 }
                 cout << endl;
             }
-            prikaziPolje(polje, Vpolja);
-            igrapocinje(polje, Vpolja);
+            igrapocinje(polje, Vpolja, ID);
             prikaziPolje(polje, Vpolja);
             // Očisti dinamički alociranu memoriju
             for (int i = 0; i < Vpolja; i++)
@@ -549,6 +671,13 @@ int main()
             cls();
         }
         else if (izbor == 3)
+        {
+            cout << "prije početka igre označavate polje na kojem ne može biti mina" << endl
+                 << "za vrijeme igre unesite 1 ako želite piknuti polje a ako želite postaviti zastavicu unesite 2" << endl
+                 << "zatim unesite xy kordinate" << endl
+                 << "ako u toku igre želite spremiti igru kad bi inače birali želite li piknuti polje ili postaviti zastavicu unesite 505" << endl;
+        }
+        else if (izbor == 4)
         {
             break;
         }
