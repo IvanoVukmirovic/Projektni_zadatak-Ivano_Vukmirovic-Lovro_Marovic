@@ -48,7 +48,7 @@ void resetirajStatistiku(Statistika &stat)
 }
 void spremiStatistiku(const Statistika &stat, const char *datoteka)
 {
-    std::ofstream out(datoteka, std::ios::binary);
+    ofstream out(datoteka, ios::binary);
     if (out.is_open())
     {
         out.write(reinterpret_cast<const char *>(&stat), sizeof(stat));
@@ -58,7 +58,7 @@ void spremiStatistiku(const Statistika &stat, const char *datoteka)
 
 void ucitajStatistiku(Statistika &stat, const char *datoteka)
 {
-    std::ifstream in(datoteka, std::ios::binary);
+    ifstream in(datoteka, ios::binary);
     if (in.is_open())
     {
         in.read(reinterpret_cast<char *>(&stat), sizeof(stat));
@@ -67,42 +67,34 @@ void ucitajStatistiku(Statistika &stat, const char *datoteka)
 }
 void ispisiStatistiku(const Statistika &stat, const char *datoteka)
 {
-    std::ofstream out(datoteka); // Otvaramo datoteku za pisanje
+    ofstream out(datoteka); // Otvaramo datoteku za pisanje
 
     if (!out.is_open())
     {
-        std::cerr << "Nije moguće otvoriti datoteku za pisanje: " << datoteka << std::endl;
+        cerr << "Nije moguće otvoriti datoteku za pisanje: " << datoteka << endl;
         return;
     }
-
-    cout << "Statistika igre Minesweeper:" << std::endl;
-    cout << "---------------------------" << std::endl;
-    cout << "Broj pobjeda: " << stat.brojPobjeda << std::endl;
-    cout << "Broj poraza: " << stat.brojPoraza << std::endl;
-    cout << "---------------------------" << std::endl;
-    cout << "Veličina polja 10x10:" << std::endl;
-    cout << "Pobjede: " << stat.brojPobjeda10 << std::endl;
-    cout << "Porazi: " << stat.brojPoraza10 << std::endl;
-    cout << "---------------------------" << std::endl;
-    cout << "Veličina polja 20x20:" << std::endl;
-    cout << "Pobjede: " << stat.brojPobjeda20 << std::endl;
-    cout << "Porazi: " << stat.brojPoraza20 << std::endl;
-    cout << "---------------------------" << std::endl;
-    cout << "Veličina polja 30x30:" << std::endl;
-    cout << "Pobjede: " << stat.brojPobjeda30 << std::endl;
-    cout << "Porazi: " << stat.brojPoraza30 << std::endl;
-    cout << "---------------------------" << std::endl;
-    cout << "Veličina polja 50x50:" << std::endl;
-    cout << "Pobjede: " << stat.brojPobjeda50 << std::endl;
-    cout << "Porazi: " << stat.brojPoraza50 << std::endl;
-    cout << "---------------------------" << std::endl;
-    cout << "Veličina polja 70x70:" << std::endl;
-    cout << "Pobjede: " << stat.brojPobjeda70 << std::endl;
-    cout << "Porazi: " << stat.brojPoraza70 << std::endl;
-    cout << "---------------------------" << std::endl;
-    cout << "Veličina polja 100x100:" << std::endl;
-    cout << "Pobjede: " << stat.brojPobjeda100 << std::endl;
-    cout << "Porazi: " << stat.brojPoraza100 << std::endl;
+    cout << "---------------------------" << endl;
+    cout << "Ukupan broj pobjeda: " << stat.brojPobjeda << endl;
+    cout << "Ukupan broj poraza: " << stat.brojPoraza << endl;
+    cout << "---------------------------" << endl;
+    cout << "Broj pobjeda na 10x10 polju: " << stat.brojPobjeda10 << endl;
+    cout << "Broj poraza na 10x10 polju: " << stat.brojPoraza10 << endl;
+    cout << "---------------------------" << endl;
+    cout << "Broj pobjeda na 20x20 polju: " << stat.brojPobjeda20 << endl;
+    cout << "Broj poraza na 20x20 polju: " << stat.brojPoraza20 << endl;
+    cout << "---------------------------" << endl;
+    cout << "Broj pobjeda na 30x30 polju: " << stat.brojPobjeda30 << endl;
+    cout << "Broj poraza na 30x30 polju: " << stat.brojPoraza30 << endl;
+    cout << "---------------------------" << endl;
+    cout << "Broj pobjeda na 50x50 polju: " << stat.brojPobjeda50 << endl;
+    cout << "Broj poraza na 50x50 polju: " << stat.brojPoraza50 << endl;
+    cout << "---------------------------" << endl;
+    cout << "Broj pobjeda na 70x70 polju: " << stat.brojPobjeda70 << endl;
+    cout << "Broj poraza na 70x70 polju: " << stat.brojPoraza70 << endl;
+    cout << "---------------------------" << endl;
+    cout << "Broj pobjeda na 100x100 polju: " << stat.brojPobjeda100 << endl;
+    cout << "Broj poraza na 100x100 polju: " << stat.brojPoraza100 << endl;
 
     out.close(); // Zatvaramo datoteku
 }
@@ -345,11 +337,9 @@ void igrapocinje(int **polje, int Vpolja)
     while (!igraGotova)
     {
         int zilip;
-        cin >> zilip;
-
         // Pitanje korisniku da izabere između otkrivanja polja ili postavljanja zastavice
         cout << "Ukoliko želite piknut polje unesite 1, a ako želite postaviti zastavicu unesite 2." << endl;
-
+        cin >> zilip;
         if (zilip == 505)
         {
             cout << "Odaberite želite li pristupiti save spot 1(unesite 1), 2(unesite 2), 3(unesite 3): ";
@@ -361,75 +351,75 @@ void igrapocinje(int **polje, int Vpolja)
             {
                 if (save == 1)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja.dat";
+                    spremljena_polja = "spremljena_polja.dat";
                 }
                 else if (save == 2)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja2.dat";
+                    spremljena_polja = "spremljena_polja2.dat";
                 }
                 else if (save == 3)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja3.dat";
+                    spremljena_polja = "spremljena_polja3.dat";
                 }
             }
             else if (Vpolja == 20)
             {
                 if (save == 1)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja20X20no1.dat";
+                    spremljena_polja = "spremljena_polja20X20no1.dat";
                 }
                 else if (save == 2)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja20X20no2.dat";
+                    spremljena_polja = "spremljena_polja20X20no2.dat";
                 }
                 else if (save == 3)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja20X20no3.dat";
+                    spremljena_polja = "spremljena_polja20X20no3.dat";
                 }
             }
             else if (Vpolja == 30)
             {
                 if (save == 1)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja30X30no1.txt";
+                    spremljena_polja = "spremljena_polja30X30no1.txt";
                 }
                 else if (save == 2)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja30X30no2.txt";
+                    spremljena_polja = "spremljena_polja30X30no2.txt";
                 }
                 else if (save == 3)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja30X30no3.txt";
+                    spremljena_polja = "spremljena_polja30X30no3.txt";
                 }
             }
             else if (Vpolja == 50)
             {
                 if (save == 1)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja50X50no1.txt";
+                    spremljena_polja = "spremljena_polja50X50no1.txt";
                 }
                 else if (save == 2)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja50X50no2.txt";
+                    spremljena_polja = "spremljena_polja50X50no2.txt";
                 }
                 else if (save == 3)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja50X50no3.txt";
+                    spremljena_polja = "spremljena_polja50X50no3.txt";
                 }
             }
             else if (Vpolja == 70)
             {
                 if (save == 1)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja70X70no1.txt";
+                    spremljena_polja = "spremljena_polja70X70no1.txt";
                 }
                 else if (save == 2)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja70X70no2.txt";
+                    spremljena_polja = "spremljena_polja70X70no2.txt";
                 }
                 else if (save == 3)
                 {
-                    spremljena_polja = "C:\\Users/Ivano/Documents/GitHub/Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic/spremljena_polja70X70no3.txt";
+                    spremljena_polja = "spremljena_polja70X70no3.txt";
                 }
             }
             else if (Vpolja == 100)
@@ -510,12 +500,26 @@ void igrapocinje(int **polje, int Vpolja)
                 spremiStatistiku(statistika, statDatoteka);
                 igraGotova = true;
             }
-            else if (polje[x][y] == 69)
+            else if (polje[x][y] == 79 || polje[x][y] == 69)
             {
                 polje[x][y] -= 69;
                 if (polje[x][y] == 10)
                 {
                     cout << "Pogodili ste minu, igra je gotova." << endl;
+                    statistika.brojPoraza++;
+                    if (Vpolja == 10)
+                        statistika.brojPoraza10++;
+                    else if (Vpolja == 20)
+                        statistika.brojPoraza20++;
+                    else if (Vpolja == 30)
+                        statistika.brojPoraza30++;
+                    else if (Vpolja == 50)
+                        statistika.brojPoraza50++;
+                    else if (Vpolja == 70)
+                        statistika.brojPoraza70++;
+                    else if (Vpolja == 100)
+                        statistika.brojPoraza100++;
+                    spremiStatistiku(statistika, statDatoteka);
                     igraGotova = true;
                 }
                 else
@@ -547,6 +551,7 @@ void igrapocinje(int **polje, int Vpolja)
                     break;
                 }
             }
+
             if (!igraDobivena)
                 break;
         }
@@ -629,8 +634,9 @@ int main()
     igragotova:
         cout << "za poretanje igre upišite 1" << endl
              << "za pravila igre upišite 2" << endl
-             << "zakontrole upišite 3" << endl
-             << "za izlazak upišite 4" << endl;
+             << "za kontrole upišite 3" << endl
+             << "za statistiku upišite 4" << endl
+             << "za izlazak upišite 5" << endl;
         cin >> izbor;
         if (izbor == 1)
         {
@@ -687,47 +693,47 @@ int main()
                 if (Vpolja == 10)
                 {
                     if (savec == 1)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja.dat";
+                        spremljena_polja = "spremljena_polja.dat";
                     else if (savec == 2)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja2.dat";
+                        spremljena_polja = "spremljena_polja2.dat";
                     else if (savec == 3)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja3.dat";
+                        spremljena_polja = "spremljena_polja3.dat";
                 }
                 else if (Vpolja == 20)
                 {
                     if (savec == 1)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja20X20no1.dat";
+                        spremljena_polja = "spremljena_polja20X20no1.dat";
                     else if (savec == 2)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja20X20no2.dat";
+                        spremljena_polja = "spremljena_polja20X20no2.dat";
                     else if (savec == 3)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja20X20no3.dat";
+                        spremljena_polja = "spremljena_polja20X20no3.dat";
                 }
                 else if (Vpolja == 30)
                 {
                     if (savec == 1)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja30X30no1.txt";
+                        spremljena_polja = "spremljena_polja30X30no1.txt";
                     else if (savec == 2)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja30X30no2.txt";
+                        spremljena_polja = "spremljena_polja30X30no2.txt";
                     else if (savec == 3)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja30X30no3.txt";
+                        spremljena_polja = "spremljena_polja30X30no3.txt";
                 }
                 else if (Vpolja == 50)
                 {
                     if (savec == 1)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja50X50no1.txt";
+                        spremljena_polja = "spremljena_polja50X50no1.txt";
                     else if (savec == 2)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja50X50no2.txt";
+                        spremljena_polja = "spremljena_polja50X50no2.txt";
                     else if (savec == 3)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja50X50no3.txt";
+                        spremljena_polja = "spremljena_polja50X50no3.txt";
                 }
                 else if (Vpolja == 70)
                 {
                     if (savec == 1)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja70X70no1.txt";
+                        spremljena_polja = "spremljena_polja70X70no1.txt";
                     else if (savec == 2)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja70X70no2.txt";
+                        spremljena_polja = "spremljena_polja70X70no2.txt";
                     else if (savec == 3)
-                        spremljena_polja = "C:\\Users\\Ivano\\Documents\\GitHub\\Projektni_zadatak-Ivano_Vukmirovic-Lovro_Marovic\\spremljena_polja70X70no3.txt";
+                        spremljena_polja = "spremljena_polja70X70no3.txt";
                 }
                 else if (Vpolja == 100)
                 {
@@ -750,7 +756,7 @@ int main()
             }
             if (p == 2)
             {
-                int numMines = Vpolja * Vpolja / 7; // Broj mina je 1/7 polja
+                int numMines = Vpolja * Vpolja / 5; // Broj mina je 1/5 polja
                 int prvix = 0, prviy = 0;
                 cout << "Unesite koordinate (x y) polja koje želite označiti da na njima sigurno neće biti mina pri kreirajnu polja: ";
                 cin >> prvix >> prviy;
@@ -763,14 +769,6 @@ int main()
                 }
 
                 IspuniPolje(polje, Vpolja, numMines, prvix, prviy);
-            }
-            for (int i = 0; i < Vpolja; i++)
-            {
-                for (int j = 0; j < Vpolja; j++)
-                {
-                    cout << polje[i][j] << "\t";
-                }
-                cout << endl;
             }
             igrapocinje(polje, Vpolja);
             prikaziPolje(polje, Vpolja);
@@ -825,6 +823,23 @@ int main()
                  << "za vrijeme igre unesite 1 ako želite piknuti polje a ako želite postaviti zastavicu unesite 2" << endl
                  << "zatim unesite xy kordinate" << endl
                  << "ako u toku igre želite spremiti igru kad bi inače birali želite li piknuti polje ili postaviti zastavicu unesite 505" << endl;
+            cout << "za povratak u izbormik unesite 1 a za izlazak unesite 2" << endl;
+        start5:
+            cin >> izbor;
+            if (izbor == 1)
+            {
+                goto start3;
+            }
+            else if (izbor == 2)
+            {
+                break;
+            }
+            else
+            {
+                cout << "vaš unos je neispravan pokušajte ponovo" << endl;
+                goto start5;
+            }
+            cls();
         }
         else if (izbor == 4)
         {
@@ -832,8 +847,9 @@ int main()
             ispisiStatistiku(statistika, statDatoteka);
             cout << "unesite 1 kad ste završili s pregledom ili unesite 2 da resetirate statistiku." << endl;
             cin >> sigotov;
-            if(sigotov==2){
-            resetirajStatistiku(statistika);
+            if (sigotov == 2)
+            {
+                resetirajStatistiku(statistika);
             }
         }
         else if (izbor == 5)
@@ -842,9 +858,8 @@ int main()
         }
         else
         {
-            
+
             cout << "upisali ste nevaljani unos pokušajte ponovi" << endl;
-            
         }
     }
     return 0;
