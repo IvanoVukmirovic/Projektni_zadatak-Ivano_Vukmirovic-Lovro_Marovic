@@ -458,7 +458,7 @@ void igrapocinje(int **polje, int Vpolja)
         while (true)
         {
             cout << "Unesite koordinate polja koje želite odabrati (1-" << Vpolja << "): " << endl;
-            cin >> x >> y;
+            cin >> y >> x;
 
             if (x >= 1 && x <= Vpolja && y >= 1 && y <= Vpolja)
             {
